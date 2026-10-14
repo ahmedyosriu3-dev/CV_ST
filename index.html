@@ -354,7 +354,6 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
       <span class="yrs mono" style="font-size:11px;color:var(--cyan)">MAY 2022 — MAY 2023 · HELSINKI</span>
       <div class="tags"><span class="tag">STRUCTURAL ANALYSIS</span><span class="tag">GENERAL ARRANGEMENT</span><span class="tag">SCANTLING</span></div>
     </div>
-    <div class="media">▣ MEDIA SLOT — PROJECT VISUALS (SHAREABLE / NON-CONFIDENTIAL ONLY)</div>
   </div>
 
   <div class="edu">
@@ -390,7 +389,6 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
             <li>Modular barge and buoy design, keel block plans, underwater surveys, El-Merghany yard design, tenders</li>
             <li>FEA strength analysis and CFD studies</li>
           </ul>
-          <div class="media" style="padding:18px">▣ MEDIA SLOT — MODULAR BARGE RENDER &amp; LAUNCHING PROJECT PHOTOS</div>
         </div>
 
         <div class="rolestep">
@@ -735,7 +733,7 @@ function render(){
       `<details class="trow${s.expanding?' expanding':''}" data-id="${s.id}"><summary>${s.img?`<span class="pthumb logo"><img src="${s.img}" alt="${s.n} logo"></span>`:''}${s.n}${s.few?`<span class="tag" style="margin-left:auto;flex-shrink:0">USED A FEW TIMES</span>`:''}</summary><div class="tbody">
         <p>${s.d}</p>
         <div class="links">${CATS.filter(c=>s.ex.includes(c.id)).map(l=>`<span class="chip" data-jump="${l.id}" data-jm="ex">↳ expertise: ${l.n}</span>`).join('')}</div>
-        ${s.shot?`<figure class="cert shot" data-cap="${s.n}"><img src="${s.shot}" alt="${s.n} — screenshot" loading="lazy"></figure>`:`<div class="media" style="padding:16px;margin-top:12px">▣ MEDIA SLOT — screenshots / short demo for “${s.n}”</div>`}
+        ${s.shot?`<figure class="cert shot" data-cap="${s.n}"><img src="${s.shot}" alt="${s.n} — screenshot" loading="lazy"></figure>`:``}
       </div></details>`).join('')).join('');
   }else if(mode==='pj'){
     grid.classList.add('tree');
@@ -748,7 +746,6 @@ function render(){
         ${p.yt?`<div class="ytwrap"><iframe src="https://www.youtube.com/embed/${p.yt}?rel=0" title="${p.n} — video" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="ytnote">IF THE PLAYER DOES NOT START (LOCAL FILE VIEWING), USE THE VIDEO LINK BELOW — IT WORKS ONCE THE CV IS HOSTED ONLINE.</div>`:''}
         ${linkBtns(p.links)}
         <div class="links">${CATS.filter(c=>p.ex.includes(c.id)).map(l=>`<span class="chip" data-jump="${l.id}" data-jm="ex">↳ expertise: ${l.n}</span>`).join('')}</div>
-        ${p.big?'':`<div class="media" style="padding:16px;margin-top:12px">▣ MEDIA SLOT — “${p.n}” visuals</div>`}
       </div></details>`}).join('');
   }else{
     grid.classList.remove('tree');
@@ -767,7 +764,7 @@ function openDetail(id){
       <p style="font-size:13.5px;line-height:1.65;color:var(--paper)">${s.d}</p>
         ${s.bul?`<ul class="rlist" style="margin-top:8px">${s.bul.map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
       ${s.link?`<div class="ctas" style="margin:12px 0 0"><a class="btn" href="${s.link.u}" target="_blank" rel="noopener">${s.link.t}</a></div>`:''}
-      ${(s.shots||(s.shot?[s.shot]:[])).length?(s.shots||[s.shot]).map(sh=>`<figure class="cert shot noview"><img src="${sh}" alt="${s.t} — screenshot" loading="lazy"></figure>`).join(''):`<div class="media" style="padding:16px;margin-top:12px">▣ MEDIA SLOT — “${s.t}” screenshots / demo</div>`}
+      ${(s.shots||(s.shot?[s.shot]:[])).length?(s.shots||[s.shot]).map(sh=>`<figure class="cert shot noview"><img src="${sh}" alt="${s.t} — screenshot" loading="lazy"></figure>`).join(''):``}
     </div></details>`).join('')}
    <div class="links">${linkedSW.map(l=>`<span class="chip" data-jump="${l.id}" data-jm="sw">↳ software: ${l.n}</span>`).join('')}${linkedPJ.map(l=>`<span class="chip" data-jump="${l.id}" data-jm="pj">↳ project: ${l.n}</span>`).join('')}</div>`;
   detail.classList.add('show');
