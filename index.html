@@ -198,6 +198,29 @@ details:not(.trow):not(.acad):not(.pubd)>summary:hover::after{background-color:r
 .showmore .more{display:inline}
 .seemore{background:none;border:none;border-bottom:1px solid var(--cyan);color:var(--cyan);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;padding:0 0 1px;cursor:pointer;margin-left:4px;text-transform:uppercase}
 .seemore:hover{color:var(--paper);border-color:var(--paper)}
+/* expertise: category cells + 2-column skill cards */
+.cell{border-top:3px solid var(--ac,var(--cyan))}
+.cell .cno{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--ac);opacity:.9;display:block;margin-bottom:6px}
+.cell .cgo{display:inline-block;margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--ac)}
+.cell.hl{outline:1px solid var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--panel))}
+.detail{border-color:var(--line);border-top:3px solid var(--ac,var(--cyan))}
+.detail>h3{color:var(--ac,var(--paper))}
+.xgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.xcard{display:flex;flex-direction:column;background:var(--ink);border:1px solid var(--line);border-left:3px solid var(--ac);transition:border-color .15s,transform .15s}
+.xcard:hover{border-color:var(--ac);transform:translateY(-2px)}
+.xbody{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.xhead{display:flex;align-items:baseline;gap:12px}
+.xno{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;color:var(--ac);line-height:1}
+.xhead h4{font-size:15.5px;font-weight:600;line-height:1.3}
+.xbody>p{font-size:13px;line-height:1.6;color:var(--muted);margin-top:10px}
+.xbody .rlist{font-size:12.5px;margin-top:8px}
+.xcard .cert{width:auto;border:none;background:#000;margin:0}
+.xcard .cert:hover{border:none}
+.xcover img{height:170px;width:100%;object-fit:cover;object-position:center;filter:none}
+.xstrip{display:flex;gap:8px;margin-top:auto;padding-top:14px}
+.xthumb{flex:1 1 0;min-width:0;border:1px solid var(--line)!important}
+.xthumb img{height:58px;width:100%;object-fit:cover;filter:none}
+@media(max-width:720px){.xgrid{grid-template-columns:1fr}}
 /* ============ TIMELINE ============ */
 .tl{border-left:1px solid var(--line);margin-left:6px;padding-left:0}
 .tl-item{position:relative;padding:0 0 26px 30px}
@@ -784,7 +807,8 @@ const PJ=[
 ];
 let mode='ex';
 const grid=document.getElementById('skillGrid'),detail=document.getElementById('detail');
-function cellHTML(s){return `<div class="cell${s.expanding?' expanding':''}" data-id="${s.id}"><h3>${s.n}</h3><p>${s.d}</p></div>`}
+const ACC={struct:'#22d3ee',naval:'#34d399',dyn:'#818cf8',code:'#facc15'};
+function cellHTML(s,i){return `<div class="cell${s.expanding?' expanding':''}" data-id="${s.id}" style="--ac:${ACC[s.id]}"><span class="cno">${String(i+1).padStart(2,'0')}</span><h3>${s.n}</h3><p>${s.d}</p><span class="cgo">${s.subs.length} AREAS →</span></div>`}
 const linkBtns=ls=>ls&&ls.length?`<div class="ctas" style="margin:14px 0 0">${ls.map(l=>`<a class="btn" href="${l.u}" target="_blank" rel="noopener">${l.t}</a>`).join('')}</div>`:'';
 const PJ_ORDER=['polarstern','ccg','ropax','cape','vlcc','float','deck','free'];
 function render(){
@@ -810,7 +834,7 @@ function render(){
       </div></details>`}).join('');
   }else{
     grid.classList.remove('tree');
-    grid.innerHTML=CATS.map(cellHTML).join('');
+    grid.innerHTML=CATS.map((c,i)=>cellHTML(c,i)).join('');
   }
   detail.classList.remove('show');
 }
@@ -819,12 +843,20 @@ function openDetail(id){
   detail.innerHTML=`<h3>${item.n}</h3>
    ${item.note?`<p style="color:var(--amber);margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em">▸ ${item.note.toUpperCase()}</p>`:''}
    <p style="color:var(--muted);margin-top:8px;font-size:14px;line-height:1.6">${item.d}</p>
-   ${item.subs.map((s,si)=>`<details><summary>${s.t.toUpperCase()}</summary><div style="padding:4px 16px 16px">
-      <p style="font-size:13.5px;line-height:1.65;color:var(--paper)">${s.d}</p>
-        ${s.bul?`<ul class="rlist" style="margin-top:8px">${s.bul.map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
-      ${s.link?`<div class="ctas" style="margin:12px 0 0"><a class="btn" href="${s.link.u}" target="_blank" rel="noopener">${s.link.t}</a></div>`:''}
-      ${(s.shots||(s.shot?[s.shot]:[])).length?(s.shots||[s.shot]).map((sh,k)=>`<figure class="cert shot noview"><img data-pic="ex-${id}-${si+1}-${k+1}" src="${sh}" alt="${s.t} — screenshot" loading="lazy"></figure>`).join(''):``}
-    </div></details>`).join('')}`;
+   <div class="xgrid">${item.subs.map((s,si)=>{
+      const shots=s.shots||(s.shot?[s.shot]:[]);
+      const fig=(sh,k,cls)=>`<figure class="cert ${cls}" data-cap="${s.t.toUpperCase()}"><img data-pic="ex-${id}-${si+1}-${k+1}" src="${sh}" alt="${s.t} — screenshot" loading="lazy"></figure>`;
+      return `<article class="xcard">
+        ${shots.length?fig(shots[0],0,'xcover'):''}
+        <div class="xbody">
+          <div class="xhead"><span class="xno">${String(si+1).padStart(2,'0')}</span><h4>${s.t}</h4></div>
+          <p>${s.d}</p>
+          ${s.bul?`<ul class="rlist">${s.bul.map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
+          ${s.link?`<div class="ctas" style="margin:12px 0 0"><a class="btn" href="${s.link.u}" target="_blank" rel="noopener">${s.link.t}</a></div>`:''}
+          ${shots.length>1?`<div class="xstrip">${shots.slice(1).map((sh,k)=>fig(sh,k+1,'xthumb')).join('')}</div>`:''}
+        </div>
+      </article>`}).join('')}</div>`;
+  detail.style.setProperty('--ac',ACC[id]||'var(--cyan)');
   detail.classList.add('show');
 }
 function jumpTo(m,id){
