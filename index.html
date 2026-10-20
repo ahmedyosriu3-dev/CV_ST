@@ -1031,10 +1031,10 @@ set(PER.length-1);
 /* ============ CV VERSIONS ============
    One entry per job application; each gets two tabs in the top bar.
    FULL shows every picture. LITE shows only the pictures listed in `lite`
-   (names are the data-pic attributes in this file). */
+   (names are the data-pic attributes in this file; '*-x' keeps every name ending in -x). */
 const VERSIONS=[
  {id:'general',label:'General',lite:['headshot','cert-deans','cert-aalto-transcript','paper-ocean-eng','paper-aej',
-  'pj-polarstern-thumb','pj-ccg-thumb','pj-ropax-thumb','pj-cape-thumb','pj-vlcc-thumb','pj-float-thumb','pj-deck-thumb','pj-free-thumb']},
+  '*-thumb','*-logo']},
 ];
 (function(){
 const bar=document.querySelector('#vbar .wrap');
@@ -1043,7 +1043,7 @@ let cur=VERSIONS.find(v=>v.id===vid)||VERSIONS[0], lite=fmt==='lite';
 bar.insertAdjacentHTML('beforeend',VERSIONS.map(v=>`<span class="vgrp"><span>${v.label}</span>`+
   ['full','lite'].map(f=>`<a href="?v=${v.id}-${f}" data-v="${v.id}" data-f="${f}">${f.toUpperCase()}</a>`).join('')+`</span>`).join(''));
 function apply(){
-  const keep=new Set(cur.lite);
+  const keep={has:n=>cur.lite.some(k=>k[0]==='*'?n.endsWith(k.slice(1)):k===n)};
   document.querySelectorAll('img[data-pic]').forEach(img=>{
     const box=img.closest('figure,.pthumb,.photo')||img;
     box.hidden=lite&&!keep.has(img.dataset.pic);
