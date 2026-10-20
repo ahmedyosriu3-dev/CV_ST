@@ -796,7 +796,7 @@ function render(){
     grid.innerHTML='<div class="swnote">In addition to the everyday basics — Microsoft Office products, photo and video editing — I have wide experience with the advanced engineering software below.</div>'+fields.map(f=>`<div class="fgroup">${f}</div>`+SW.filter(s=>s.f===f).map(s=>
       `<details class="trow${s.expanding?' expanding':''}" data-id="${s.id}"><summary>${s.img?`<span class="pthumb logo"><img data-pic="sw-${s.id}-logo" src="${s.img}" alt="${s.n} logo"></span>`:''}${s.n}${s.few?`<span class="tag" style="margin-left:auto;flex-shrink:0">USED A FEW TIMES</span>`:''}</summary><div class="tbody">
         <p>${s.d}</p>
-        <div class="links">${CATS.filter(c=>s.ex.includes(c.id)).map(l=>`<span class="chip" data-jump="${l.id}" data-jm="ex">↳ expertise: ${l.n}</span>`).join('')}</div>
+        <div class="links">${s.f==='CODING'?'':CATS.filter(c=>s.ex.includes(c.id)).map(l=>`<span class="chip" data-jump="${l.id}" data-jm="ex">↳ expertise: ${l.n}</span>`).join('')}</div>
         ${s.shot?`<figure class="cert shot" data-cap="${s.n}"><img data-pic="sw-${s.id}-shot" src="${s.shot}" alt="${s.n} — screenshot" loading="lazy"></figure>`:``}
       </div></details>`).join('')).join('');
   }else if(mode==='pj'){
