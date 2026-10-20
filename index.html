@@ -816,8 +816,6 @@ function render(){
 }
 function openDetail(id){
   const item=CATS.find(c=>c.id===id);
-  const linkedSW=SW.filter(s=>s.ex.includes(id));
-  const linkedPJ=PJ.filter(p=>p.ex.includes(id));
   detail.innerHTML=`<h3>${item.n}</h3>
    ${item.note?`<p style="color:var(--amber);margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em">▸ ${item.note.toUpperCase()}</p>`:''}
    <p style="color:var(--muted);margin-top:8px;font-size:14px;line-height:1.6">${item.d}</p>
@@ -826,8 +824,7 @@ function openDetail(id){
         ${s.bul?`<ul class="rlist" style="margin-top:8px">${s.bul.map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
       ${s.link?`<div class="ctas" style="margin:12px 0 0"><a class="btn" href="${s.link.u}" target="_blank" rel="noopener">${s.link.t}</a></div>`:''}
       ${(s.shots||(s.shot?[s.shot]:[])).length?(s.shots||[s.shot]).map((sh,k)=>`<figure class="cert shot noview"><img data-pic="ex-${id}-${si+1}-${k+1}" src="${sh}" alt="${s.t} — screenshot" loading="lazy"></figure>`).join(''):``}
-    </div></details>`).join('')}
-   <div class="links">${linkedSW.map(l=>`<span class="chip" data-jump="${l.id}" data-jm="sw">↳ software: ${l.n}</span>`).join('')}${linkedPJ.map(l=>`<span class="chip" data-jump="${l.id}" data-jm="pj">↳ project: ${l.n}</span>`).join('')}</div>`;
+    </div></details>`).join('')}`;
   detail.classList.add('show');
 }
 function jumpTo(m,id){
