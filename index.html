@@ -58,6 +58,7 @@ li.rel{box-shadow:none;border-left:2px solid #34d399;color:#fff}
 #fit .fi::before{content:counter(fi,decimal-leading-zero);position:absolute;left:14px;top:13px;font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:#34d399}
 #fit .fi b{display:block;color:#fff;font-size:15.5px;margin-bottom:5px;font-family:'Space Grotesk',sans-serif}
 #fit .fi span{color:var(--paper);font-size:13.5px;line-height:1.55}
+#fit .fi:last-child:nth-child(odd){grid-column:1/-1}
 @media(max-width:760px){#fit .fg{grid-template-columns:1fr}}
 .titleblock>.photo{width:170px;min-height:200px;padding:0;overflow:hidden}
 .photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -353,6 +354,10 @@ details:not(.trow):not(.acad):not(.pubd)>summary:hover::after{background-color:r
   #printcv a{color:#0b5e7a;text-decoration:none}
   .pc-foot{margin-top:5mm;border-top:.6pt solid #c3ced6;padding-top:2.4mm;font-family:'IBM Plex Mono',monospace;font-size:7pt;color:#5b6b77;letter-spacing:.05em}
   .pc-head,.pc-hi{page-break-inside:avoid}
+  .pc-prog{border-left:1pt solid #0b5e7a;margin:1.6mm 0 1.2mm 1mm;padding-left:3.4mm}
+  .pc-prog h4{position:relative;margin-top:.9mm!important}
+  .pc-prog h4::before{content:'';position:absolute;left:-4.65mm;top:1.2mm;width:1.8mm;height:1.8mm;border-radius:50%;background:#fff;border:1pt solid #0b5e7a}
+  .pc-prog h4:first-child::before{background:#0b5e7a}
   #pcfit li{font-size:8.4pt;line-height:1.42;margin-top:.6mm}
   #pcfit ul{margin:1mm 0 2mm 4mm}
 }
@@ -1092,6 +1097,7 @@ const VERSIONS=[
   fit:[
    ['Naval architect, 7+ years','M.Sc. in Naval Architecture (Alexandria) and M.Sc. (Tech.) in Marine Technology (Aalto, GPA 4.88/5), with ten years across stability, hydrodynamics and structural design.'],
    ['Heavy lifting and marine operations','Step-by-step loading and stability scenarios for heavy-lifting projects, including a deck carrier transporting offshore wind components; heavy-lifting consultancy for DB Schenker, Linde and Minerals Technologies; launching and pulling-up of 70–110 m barges and floating hotels with marine airbags.'],
+   ['Floating offshore installation patents','R&amp;D with Elomatic’s offshore team on the Float Foundation patents: a floating foundation and offshore construction logistics with no offshore lifting. I was responsible for optimizing the project’s dynamics and motions, and for screening the concept ideas.'],
    ['Stability and ballast','Intact and damaged stability, tank plans and compartment modelling, checking that every loading stage stays within the criteria limits.'],
    ['Longitudinal section forces','Hull girder still-water and wave bending moments and shear forces, with class software (DNV Nauticus Hull, LR ShipRight) and global FEA approved by class.'],
    ['Mooring and hydrodynamics','RAOs and motions with 3D potential flow (AQWA, HydroSTAR), frequency- and time-domain response, mooring and towing loads, mooring foundation FEA, and hydroelasticity research at Aalto.'],
@@ -1184,15 +1190,17 @@ new MutationObserver(apply).observe(document.querySelector('main'),{childList:tr
   <h2>Career</h2>
   <h3>Elomatic Consulting &amp; Engineering — Helsinki</h3>
   <div class="pc-m">MAY 2022 — PRESENT</div>
-  <h4>Consulting Engineer — Marine Structural Design &amp; FEA <span class="pc-m">· MAR 2025 — PRESENT</span></h4>
+  <div class="pc-prog">
+    <h4>Consulting Engineer — Marine Structural Design &amp; FEA <span class="pc-m">· MAR 2025 — PRESENT</span></h4>
+    <h4>Senior Structural Analyst &amp; Designer <span class="pc-m">· MAY 2023 — MAR 2025</span></h4>
+    <h4>Structural Analyst &amp; Design Engineer <span class="pc-m">· MAY 2022 — MAY 2023</span></h4>
+  </div>
   <ul>
     <li>Global and local strength, vibration, harmonic and buckling FEA; design optimization of machinery and crane foundations, deckhouse, working decks, masts and moon pool.</li>
     <li>Ship dynamics and mooring analysis, global dry and wet eigenmodes.</li>
     <li>Hull girder strength and scantling with class software (DNV Nauticus Hull, LR ShipRight); 3D ship structure design in SpaceClaim and NAPA Steel.</li>
     <li>Intact and damaged stability for concept designs and loading scenarios; offshore wind turbine research and patent design development.</li>
   </ul>
-  <h4>Senior Structural Analyst &amp; Designer <span class="pc-m">· MAY 2023 — MAR 2025</span></h4>
-  <h4>Structural Analyst &amp; Design Engineer <span class="pc-m">· MAY 2022 — MAY 2023</span></h4>
 
   <h3>Aalto University — Marine and Arctic Technology</h3>
   <div class="pc-m">JAN 2021 — MAY 2022 · ESPOO / HELSINKI</div>
