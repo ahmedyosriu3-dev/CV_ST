@@ -44,12 +44,19 @@ header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,var
 .vgrp a.on{background:var(--cyan);color:var(--ink);font-weight:500}
 @media print{.vbar,#fit{display:none!important}}
 #fit[hidden]{display:none}
+.rel{box-shadow:inset 0 0 0 1px rgba(52,211,153,.7),0 0 18px rgba(52,211,153,.14);background-image:linear-gradient(90deg,rgba(52,211,153,.12),transparent 70%)!important}
+.cell.rel{border-top-color:#34d399}
+.relt{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#0b1a14;background:#34d399;padding:3px 7px;margin-left:auto;font-weight:600;white-space:nowrap}
+.cell .relt{position:absolute;right:12px;bottom:12px}
+.trow summary .tag+.relt{margin-left:10px}
+li.rel{box-shadow:none;border-left:2px solid #34d399;color:#fff}
 #fit{border-bottom:1px solid var(--line);background:var(--panel)}
 #fit .wrap{padding-top:18px;padding-bottom:20px}
-#fit .fh{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:.14em;margin-bottom:12px}
-#fit .fg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-#fit .fi{border:1px solid var(--line);border-left:3px solid var(--cyan);padding:10px 14px;background:var(--ink)}
-#fit .fi b{display:block;color:var(--cyan);font-size:13px;margin-bottom:4px}
+#fit .fh{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#34d399;letter-spacing:.16em;margin-bottom:14px;font-weight:600}
+#fit .fg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;counter-reset:fi}
+#fit .fi{counter-increment:fi;position:relative;border:1px solid rgba(52,211,153,.55);border-left:4px solid #34d399;padding:14px 16px 14px 58px;background:linear-gradient(135deg,rgba(52,211,153,.13),rgba(34,211,238,.05) 60%,var(--ink));box-shadow:0 0 22px rgba(52,211,153,.12)}
+#fit .fi::before{content:counter(fi,decimal-leading-zero);position:absolute;left:14px;top:13px;font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:#34d399}
+#fit .fi b{display:block;color:#fff;font-size:15.5px;margin-bottom:5px;font-family:'Space Grotesk',sans-serif}
 #fit .fi span{color:var(--paper);font-size:13.5px;line-height:1.55}
 @media(max-width:760px){#fit .fg{grid-template-columns:1fr}}
 .titleblock>.photo{width:170px;min-height:200px;padding:0;overflow:hidden}
@@ -1077,6 +1084,9 @@ const VERSIONS=[
   role:'NAVAL ARCHITECT · STABILITY &amp; MARINE OPERATIONS · HELSINKI, FI',
   blurb:'Naval architect and marine structural engineer with ten years in stability, hydrodynamics and marine operations. I work through ballast and loading scenarios step by step for heavy-lifting projects, calculate hull girder section forces and floating stability, map mooring and towing loads onto the structure, and have planned the launching and pulling-up of barges and floating hotels up to 110 m.',
   catOrder:['naval','dyn','struct','code'],
+  /* highlighted as relevant: expertise, software and project ids; career lines matching hlText */
+  hl:['naval','dyn','code','float','deck','free','napa','max','dnv','hydro','aqwa','acoustic','fluent','py'],
+  hlText:/mooring|hydroelastic|stability|hull girder|airbag|heavy lifting|heavy-lifting/i,
   fitTitle:'FIT FOR THE IMMERSION ENGINEER ROLE — FEMERN LINK CONTRACTORS',
   fit:[
    ['Naval architect, 7+ years','M.Sc. in Naval Architecture (Alexandria) and M.Sc. (Tech.) in Marine Technology (Aalto, GPA 4.88/5), with ten years across stability, hydrodynamics and structural design.'],
@@ -1101,6 +1111,15 @@ function apply(){
   });
   document.querySelector('.titleblock').classList.toggle('nophoto',lite&&!keep.has('headshot'));
   tailor();
+  const hl=new Set(cur.hl||[]);
+  document.querySelectorAll('#skillGrid .cell[data-id],#skillGrid details.trow[data-id]').forEach(el=>{
+    const on=hl.has(el.dataset.id),tgt=el.matches('details')?el.querySelector('summary'):el;
+    el.classList.toggle('rel',on);
+    let t=tgt.querySelector(':scope>.relt');
+    if(on&&!t)tgt.insertAdjacentHTML('beforeend','<span class="relt">RELEVANT</span>');
+    if(!on&&t)t.remove();
+  });
+  document.querySelectorAll('#exp li').forEach(li=>li.classList.toggle('rel',!!cur.hlText&&cur.hlText.test(li.textContent)));
   bar.querySelectorAll('a').forEach(x=>x.classList.toggle('on',x.dataset.v===cur.id&&(x.dataset.f==='lite')===lite));
 }
 /* per-application text: role line, summary, fit panel and expertise order */
