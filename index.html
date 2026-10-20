@@ -32,7 +32,7 @@ header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,var
 .titleblock{display:grid;grid-template-columns:170px 1fr auto;gap:0;border:1px solid var(--line);margin:48px 0 0;background:rgba(18,34,54,.6)}
 .titleblock>div{padding:20px;border-right:1px solid var(--line)}
 .titleblock>div:last-child{border-right:none}
-.photo{width:170px;height:100%;min-height:200px;background:repeating-linear-gradient(45deg,var(--panel) 0 8px,var(--ink2) 8px 16px);display:flex;align-items:center;justify-content:center;padding:0}
+.titleblock>.photo{width:170px;min-height:200px;padding:0;overflow:hidden}
 .photo img{width:100%;height:100%;object-fit:cover;display:block}
 h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.01em;line-height:1.05}
 .role{font-size:14px;margin-top:6px;font-family:'IBM Plex Mono',monospace;background:linear-gradient(90deg,#3b82f6,#22d3ee,#34d399,#facc15,#fb923c,#ef4444);-webkit-background-clip:text;background-clip:text;color:transparent;width:fit-content;font-weight:500}
@@ -86,7 +86,6 @@ h2::before{content:'— ';color:var(--cyan-dim)}
 .detail .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .chip{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 10px;border:1px solid var(--line);color:var(--muted);cursor:pointer}
 .chip:hover{border-color:var(--cyan);color:var(--cyan)}
-.media{margin-top:18px;border:1px dashed var(--cyan-dim);padding:28px;text-align:center;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em}
 
 /* ============ ACADEMIC ============ */
 .edu{border-left:1px solid var(--line);padding-left:28px;position:relative;margin-bottom:44px;scroll-margin-top:110px}
@@ -125,8 +124,6 @@ details summary:hover{background:var(--panel)}
 .cert:hover{border-color:var(--cyan-dim)}
 .cert img{display:block;width:100%;height:190px;object-fit:cover;object-position:top;filter:saturate(.85)}
 .cert figcaption{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);padding:8px 10px;letter-spacing:.08em;line-height:1.5}
-.cert.slot{display:flex;align-items:center;justify-content:center;height:233px;border-style:dashed;border-color:var(--cyan-dim);cursor:default;text-align:center;padding:14px}
-.cert.slot span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:.08em;line-height:1.7}
 .lightbox{position:fixed;inset:0;background:rgba(6,12,20,.94);z-index:200;display:none;align-items:center;justify-content:center;padding:32px;cursor:zoom-out}
 .lightbox.open{display:flex}
 .lightbox img{max-width:100%;max-height:92vh;border:1px solid var(--line)}
@@ -739,7 +736,7 @@ function render(){
     grid.classList.add('tree');
     grid.innerHTML='<div class="fgroup">PROJECT REGISTER — SELECT TO EXPAND</div>'+PJ_ORDER.map(pid=>{
       const p=PJ.find(x=>x.id===pid);
-      return `<details class="trow" data-id="${p.id}"><summary><span class="pthumb" data-thumb="${p.id}">${p.timg?`<img src="${p.timg}" alt="">`:`THUMB<br>SLOT`}</span>${p.n}</summary><div class="tbody">
+      return `<details class="trow" data-id="${p.id}"><summary><span class="pthumb" data-thumb="${p.id}">${p.timg?`<img src="${p.timg}" alt="">`:''}</span>${p.n}</summary><div class="tbody">
         <p>${p.d}</p>
         ${p.bul?`<ul class="rlist" style="margin-top:8px">${p.bul.map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
         ${p.big?`<figure class="cert shot${p.lock?' noview':''}"${p.lock?'':` data-cap="${p.n}"`}><img src="${p.big}" alt="${p.n}" loading="lazy"></figure>`:''}
