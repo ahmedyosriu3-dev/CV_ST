@@ -806,7 +806,7 @@ const PJ=[
 let mode='ex';
 const grid=document.getElementById('skillGrid'),detail=document.getElementById('detail');
 const ACC={struct:'#22d3ee',naval:'#34d399',dyn:'#818cf8',code:'#facc15'};
-function cellHTML(s,i){return `<div class="cell${s.expanding?' expanding':''}" data-id="${s.id}" style="--ac:${ACC[s.id]}"><span class="cno">${String(i+1).padStart(2,'0')}</span><h3>${s.n}</h3><p>${s.d}</p><span class="cgo">${s.subs.length} AREA${s.subs.length>1?'S':''} →</span></div>`}
+function cellHTML(s,i){return `<div class="cell${s.expanding?' expanding':''}" data-id="${s.id}" style="--ac:${ACC[s.id]}"><span class="cno">${String(i+1).padStart(2,'0')}</span><h3>${s.n}</h3><p>${s.d}</p>${s.subs.length>1?`<span class="cgo">${s.subs.length} AREAS →</span>`:''}</div>`}
 const linkBtns=ls=>ls&&ls.length?`<div class="ctas" style="margin:14px 0 0">${ls.map(l=>`<a class="btn" href="${l.u}" target="_blank" rel="noopener">${l.t}</a>`).join('')}</div>`:'';
 const PJ_ORDER=['polarstern','ccg','ropax','cape','vlcc','float','deck','free'];
 function render(){
