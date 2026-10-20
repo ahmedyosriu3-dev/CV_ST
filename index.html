@@ -1034,20 +1034,26 @@ const VERSIONS=[
 ];
 (function(){
 const bar=document.querySelector('#vbar .wrap');
-const [vid,fmt]=(new URLSearchParams(location.search).get('v')||'').split('-');
-const cur=VERSIONS.find(v=>v.id===vid)||VERSIONS[0];
-const lite=fmt==='lite';
+let [vid,fmt]=(new URLSearchParams(location.search).get('v')||'').split('-');
+let cur=VERSIONS.find(v=>v.id===vid)||VERSIONS[0], lite=fmt==='lite';
 bar.insertAdjacentHTML('beforeend',VERSIONS.map(v=>`<span class="vgrp"><span>${v.label}</span>`+
-  ['full','lite'].map(f=>`<a href="?v=${v.id}-${f}" class="${v===cur&&(f==='lite')===lite?'on':''}">${f.toUpperCase()}</a>`).join('')+`</span>`).join(''));
-if(!lite)return;
-const keep=new Set(cur.lite);
+  ['full','lite'].map(f=>`<a href="?v=${v.id}-${f}" data-v="${v.id}" data-f="${f}">${f.toUpperCase()}</a>`).join('')+`</span>`).join(''));
 function apply(){
+  const keep=new Set(cur.lite);
   document.querySelectorAll('img[data-pic]').forEach(img=>{
     const box=img.closest('figure,.pthumb,.photo')||img;
-    box.hidden=!keep.has(img.dataset.pic);
+    box.hidden=lite&&!keep.has(img.dataset.pic);
   });
-  document.querySelector('.titleblock').classList.toggle('nophoto',!keep.has('headshot'));
+  document.querySelector('.titleblock').classList.toggle('nophoto',lite&&!keep.has('headshot'));
+  bar.querySelectorAll('a').forEach(x=>x.classList.toggle('on',x.dataset.v===cur.id&&(x.dataset.f==='lite')===lite));
 }
+/* switch in place, no reload — also works when the page is embedded */
+bar.addEventListener('click',e=>{
+  const t=e.target.closest('a[data-v]');if(!t)return;
+  e.preventDefault();
+  cur=VERSIONS.find(v=>v.id===t.dataset.v);lite=t.dataset.f==='lite';apply();
+  try{history.replaceState(null,'','?v='+cur.id+'-'+t.dataset.f)}catch(_){}
+});
 apply();
 new MutationObserver(apply).observe(document.querySelector('main'),{childList:true,subtree:true});
 })();
