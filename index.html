@@ -99,6 +99,15 @@ h2::before{content:'— ';color:var(--cyan-dim)}
 .chip:hover{border-color:var(--cyan);color:var(--cyan)}
 
 /* ============ ACADEMIC ============ */
+details.edu.acad{border:none;background:none;margin-top:0}
+details.edu.acad>summary{display:block;position:relative;padding:0 76px 0 0;cursor:pointer;list-style:none;font-family:inherit;letter-spacing:0;color:inherit}
+details.edu.acad>summary::before,details.edu.acad>summary::-webkit-details-marker{content:none;display:none}
+details.edu.acad>summary:hover{background:none}
+details.edu.acad>summary:hover .acad-arrow{background:var(--cyan);color:var(--ink)}
+.acad-arrow{position:absolute;right:0;top:50%;transform:translateY(-50%);width:56px;height:56px;border:2px solid var(--cyan);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:34px;line-height:1;transition:.15s}
+.acad-arrow::before{content:'\25BE';transition:transform .2s}
+details.edu.acad:not([open]) .acad-arrow::before{transform:rotate(-90deg)}
+.acad-body{margin-top:16px}
 .edu{border-left:1px solid var(--line);padding-left:28px;position:relative;margin-bottom:44px;scroll-margin-top:110px}
 .edu::before{content:'';position:absolute;left:-5px;top:6px;width:9px;height:9px;background:var(--ink);border:1px solid var(--cyan);transform:rotate(45deg)}
 .edu.flash{animation:flash 1.6s ease}
@@ -465,7 +474,8 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
 
   <h2>Academic record</h2>
 
-  <div class="edu" id="aalto">
+  <details class="edu acad" id="aalto">
+    <summary>
     <div class="yrs">2020 — 2022 · DEGREE CONFERRED 26 SEP 2022 · 121 ECTS CR</div>
     <h3>M.Sc. (Technology) — Mechanical Engineering, Marine Technology & Solid Mechanics</h3>
     <div class="uni">Aalto University, School of Engineering, Finland</div>
@@ -475,6 +485,9 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
       <span class="badge">DEAN'S LIST 2020–2021</span>
       <span class="badge c">THESIS GRADE 5/5 — EXCELLENT</span>
     </div>
+    <span class="acad-arrow" aria-hidden="true"></span>
+    </summary>
+    <div class="acad-body">
     <div class="thesis"><b>THESIS · 30 CR · GRADE 5 (EXCELLENT)</b>Prediction of global loads of intact, damaged and grounded ships using Fluid–Flexible Structure Interaction methods<br><span style="color:var(--muted);font-size:12px">Supervisor: Prof. Spyros Hirdaris · Thesis advisor: Sasan Tavakoli</span></div>
     <details>
       <summary>TRANSCRIPT OF THE DEGREE CERTIFICATE — FULL COURSE RECORD</summary>
@@ -516,15 +529,20 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
         <figcaption>DEGREE TRANSCRIPT · 4.88/5<br>CLICK TO ENLARGE</figcaption>
       </figure>
     </div>
-  </div>
+    </div>
+  </details>
 
-  <div class="edu" id="alexmsc">
+  <details class="edu acad" id="alexmsc">
+    <summary>
     <div class="yrs">2017 — 2020 · DEGREE AWARDED 29 NOV 2020 (UNIVERSITY COUNCIL RATIFICATION)</div>
     <h3>M.Sc. (Research) — Marine Engineering & Naval Architecture</h3>
     <div class="uni">Alexandria University, Faculty of Engineering, Egypt</div>
     <div class="badges">
       <span class="badge">COURSE CGPA 3.708 / 4.0</span>
     </div>
+    <span class="acad-arrow" aria-hidden="true"></span>
+    </summary>
+    <div class="acad-body">
     <div class="thesis"><b>THESIS</b>An Engineering Assessment for Fatigue Life of Corroded Ship Structure</div>
     <details>
       <summary>GRADUATE COURSE RECORD — 8 COURSES</summary>
@@ -546,9 +564,11 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
         <figcaption>M.SC. CERTIFICATE &amp; COURSE RECORD<br>CLICK TO ENLARGE</figcaption>
       </figure>
     </div>
-  </div>
+    </div>
+  </details>
 
-  <div class="edu" id="bsc">
+  <details class="edu acad" id="bsc">
+    <summary>
     <div class="yrs">2011 — 2016 · GRADUATED JUNE 2016</div>
     <h3>B.Sc. — Marine Engineering & Naval Architecture</h3>
     <div class="uni">Alexandria University, Faculty of Engineering, Egypt</div>
@@ -556,6 +576,9 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
       <span class="badge">85.51% — EXCELLENT WITH DEGREE OF HONOUR</span>
       <span class="badge">RANKED 1ST OF 51 — CLASS VALEDICTORIAN</span>
     </div>
+    <span class="acad-arrow" aria-hidden="true"></span>
+    </summary>
+    <div class="acad-body">
     <details>
       <summary>YEAR-BY-YEAR RECORD & CORE STRUCTURAL COURSES</summary>
       <table class="tbl">
@@ -586,7 +609,8 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
         <figcaption>RANK LETTER · 1ST OF 51<br>CLICK TO ENLARGE</figcaption>
       </figure>
     </div>
-  </div>
+    </div>
+  </details>
 
   <h2 style="margin-top:40px">Publications</h2>
   <div class="pub"><div class="pubrow">
