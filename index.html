@@ -1101,6 +1101,8 @@ const VERSIONS=[
 const bar=document.querySelector('#vbar .wrap');
 let [vid,fmt]=(new URLSearchParams(location.search).get('v')||'').split('-');
 let cur=VERSIONS.find(v=>v.id===vid)||VERSIONS[0], lite=fmt==='lite';
+/* a link with ?v= is one sent to an employer: show only that version, without the switcher */
+if(vid&&VERSIONS.some(v=>v.id===vid))document.getElementById('vbar').hidden=true;
 bar.insertAdjacentHTML('beforeend',VERSIONS.map(v=>`<span class="vgrp"><span>${v.label}</span>`+
   ['full','lite'].map(f=>`<a href="?v=${v.id}-${f}" data-v="${v.id}" data-f="${f}">${f.toUpperCase()}</a>`).join('')+`</span>`).join(''));
 function apply(){
