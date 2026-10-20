@@ -42,7 +42,16 @@ header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,var
 .vgrp a{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);padding:6px 10px;text-decoration:none;letter-spacing:.06em}
 .vgrp a:hover{color:var(--paper)}
 .vgrp a.on{background:var(--cyan);color:var(--ink);font-weight:500}
-@media print{.vbar{display:none!important}}
+@media print{.vbar,#fit{display:none!important}}
+#fit[hidden]{display:none}
+#fit{border-bottom:1px solid var(--line);background:var(--panel)}
+#fit .wrap{padding-top:18px;padding-bottom:20px}
+#fit .fh{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:.14em;margin-bottom:12px}
+#fit .fg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#fit .fi{border:1px solid var(--line);border-left:3px solid var(--cyan);padding:10px 14px;background:var(--ink)}
+#fit .fi b{display:block;color:var(--cyan);font-size:13px;margin-bottom:4px}
+#fit .fi span{color:var(--paper);font-size:13.5px;line-height:1.55}
+@media(max-width:760px){#fit .fg{grid-template-columns:1fr}}
 .titleblock>.photo{width:170px;min-height:200px;padding:0;overflow:hidden}
 .photo img{width:100%;height:100%;object-fit:cover;display:block}
 h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.01em;line-height:1.05}
@@ -337,6 +346,8 @@ details:not(.trow):not(.acad):not(.pubd)>summary:hover::after{background-color:r
   #printcv a{color:#0b5e7a;text-decoration:none}
   .pc-foot{margin-top:5mm;border-top:.6pt solid #c3ced6;padding-top:2.4mm;font-family:'IBM Plex Mono',monospace;font-size:7pt;color:#5b6b77;letter-spacing:.05em}
   .pc-head,.pc-hi{page-break-inside:avoid}
+  #pcfit li{font-size:8.4pt;line-height:1.42;margin-top:.6mm}
+  #pcfit ul{margin:1mm 0 2mm 4mm}
 }
 footer{padding:8px 0;font-size:8px;border-color:#b9c6d0}
 }
@@ -373,6 +384,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
     </div>
   </div>
 </header>
+<div id="fit" hidden><div class="wrap"></div></div>
 
 <nav><div class="wrap"><div class="tabs">
   <button class="tab active" data-s="exp"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>Career</button>
@@ -1060,6 +1072,20 @@ set(PER.length-1);
 const VERSIONS=[
  {id:'general',label:'General',lite:['headshot','cert-deans','cert-aalto-transcript','paper-ocean-eng','paper-aej',
   '*-thumb','*-logo']},
+ {id:'flc',label:'FLC · Immersion Engineer',lite:['headshot','cert-deans','cert-aalto-transcript','paper-ocean-eng','paper-aej',
+  '*-thumb','*-logo'],
+  role:'NAVAL ARCHITECT · STABILITY &amp; MARINE OPERATIONS · HELSINKI, FI',
+  blurb:'Naval architect and marine structural engineer with ten years in stability, hydrodynamics and marine operations. I work through ballast and loading scenarios step by step for heavy-lifting projects, calculate hull girder section forces and floating stability, map mooring and towing loads onto the structure, and have planned the launching and pulling-up of barges and floating hotels up to 110 m.',
+  catOrder:['naval','dyn','struct','code'],
+  fitTitle:'FIT FOR THE IMMERSION ENGINEER ROLE — FEMERN LINK CONTRACTORS',
+  fit:[
+   ['Naval architect, 7+ years','M.Sc. in Naval Architecture (Alexandria) and M.Sc. (Tech.) in Marine Technology (Aalto, GPA 4.88/5), with ten years across stability, hydrodynamics and structural design.'],
+   ['Heavy lifting and marine operations','Step-by-step loading and stability scenarios for heavy-lifting projects, including a deck carrier transporting offshore wind components; heavy-lifting consultancy for DB Schenker, Linde and Minerals Technologies; launching and pulling-up of 70–110 m barges and floating hotels with marine airbags.'],
+   ['Stability and ballast','Intact and damaged stability, tank plans and compartment modelling, checking that every loading stage stays within the criteria limits.'],
+   ['Longitudinal section forces','Hull girder still-water and wave bending moments and shear forces, with class software (DNV Nauticus Hull, LR ShipRight) and global FEA approved by class.'],
+   ['Mooring and hydrodynamics','RAOs and motions with 3D potential flow (AQWA, HydroSTAR), frequency- and time-domain response, mooring and towing loads, mooring foundation FEA, and hydroelasticity research at Aalto.'],
+   ['Design to execution documents','I write the engineering reports for my analyses, so that the results carry into drawings, design changes and class approval.'],
+  ]},
 ];
 (function(){
 const bar=document.querySelector('#vbar .wrap');
@@ -1074,7 +1100,25 @@ function apply(){
     box.hidden=lite&&!keep.has(img.dataset.pic);
   });
   document.querySelector('.titleblock').classList.toggle('nophoto',lite&&!keep.has('headshot'));
+  tailor();
   bar.querySelectorAll('a').forEach(x=>x.classList.toggle('on',x.dataset.v===cur.id&&(x.dataset.f==='lite')===lite));
+}
+/* per-application text: role line, summary, fit panel and expertise order */
+const T=[['.titleblock .role','role'],['header .blurb','blurb'],['#printcv .pc-role','role'],['#printcv .pc-blurb','blurb']].map(([q,k])=>({q,k}));
+const CAT0=CATS.map(c=>c.id);let lastV=null;
+function tailor(){
+  const pf=document.getElementById('pcfit');if(!pf)return; /* print layout is parsed after this script */
+  if(lastV===cur.id)return;lastV=cur.id;
+  T.forEach(o=>{o.el=o.el||document.querySelector(o.q);if(o.def==null)o.def=o.el.innerHTML;o.el.innerHTML=cur[o.k]||o.def});
+  const fit=document.getElementById('fit');
+  fit.hidden=pf.hidden=!cur.fit;
+  if(cur.fit){
+    fit.querySelector('.wrap').innerHTML=`<div class="fh">${cur.fitTitle}</div><div class="fg">${cur.fit.map(([a,b])=>`<div class="fi"><b>${a}</b><span>${b}</span></div>`).join('')}</div>`;
+    pf.innerHTML=`<h2>Fit for this role</h2><ul>${cur.fit.map(([a,b])=>`<li><b>${a}</b> — ${b}</li>`).join('')}</ul>`;
+  }
+  const ord=cur.catOrder||CAT0;
+  CATS.sort((a,b)=>ord.indexOf(a.id)-ord.indexOf(b.id));
+  if(mode==='ex')render();
 }
 /* switch in place, no reload — also works when the page is embedded */
 bar.addEventListener('click',e=>{
@@ -1084,6 +1128,7 @@ bar.addEventListener('click',e=>{
   try{history.replaceState(null,'','?v='+cur.id+'-'+t.dataset.f)}catch(_){}
 });
 apply();
+document.addEventListener('DOMContentLoaded',apply);
 new MutationObserver(apply).observe(document.querySelector('main'),{childList:true,subtree:true});
 })();
 </script>
@@ -1111,6 +1156,8 @@ new MutationObserver(apply).observe(document.querySelector('main'),{childList:tr
     <td><div class="v">1st / 51</div><div class="l">B.Sc. class valedictorian</div></td>
     <td><div class="v">3 papers</div><div class="l">incl. Ocean Engineering — 1st-ranked marine journal</div></td>
   </tr></table>
+
+  <div id="pcfit" hidden></div>
 
   <h2>Career</h2>
   <h3>Elomatic Consulting &amp; Engineering — Helsinki</h3>
