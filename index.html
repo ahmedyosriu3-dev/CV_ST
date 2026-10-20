@@ -809,7 +809,6 @@ function render(){
         ${p.big?`<figure class="cert shot${p.lock?' noview':''}"${p.lock?'':` data-cap="${p.n}"`}><img data-pic="pj-${p.id}-big" src="${p.big}" alt="${p.n}" loading="lazy"></figure>`:''}
         ${p.yt?`<div class="ytwrap"><iframe src="https://www.youtube.com/embed/${p.yt}?rel=0" title="${p.n} — video" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="ytnote">IF THE PLAYER DOES NOT START (LOCAL FILE VIEWING), USE THE VIDEO LINK BELOW — IT WORKS ONCE THE CV IS HOSTED ONLINE.</div>`:''}
         ${linkBtns(p.links)}
-        <div class="links">${CATS.filter(c=>p.ex.includes(c.id)).map(l=>`<span class="chip" data-jump="${l.id}" data-jm="ex">↳ expertise: ${l.n}</span>`).join('')}</div>
       </div></details>`}).join('');
   }else{
     grid.classList.remove('tree');
