@@ -1198,5 +1198,35 @@ new MutationObserver(apply).observe(document.querySelector('main'),{childList:tr
   <div class="pc-foot">INTERACTIVE CV — WITH THE EXPERTISE EXPLORER, PROJECT MEDIA AND CERTIFICATES — AVAILABLE ONLINE · <a href="https://ahmedyosriu3-dev.github.io/CV_ST/">https://ahmedyosriu3-dev.github.io/CV_ST/</a></div>
 </div>
 
+<script>
+/* ============ REMEMBER VIEW ============
+   Keeps the open tab, view, expanded sections, version and scroll position
+   in this browser, so a reload reopens the CV where the reader left it. */
+(function(){
+const KEY='cv-view-state';
+const keyOf=d=>d.id||(d.dataset.id?'row:'+d.dataset.id:'sum:'+(d.querySelector(':scope>summary')?.textContent||'').trim().slice(0,80));
+let st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){}
+let restoring=true;
+function save(){
+  if(restoring)return;
+  const s={tab:document.querySelector('.tab.active')?.dataset.s,mode,
+    ex:document.querySelector('#skillGrid .cell.hl')?.dataset.id,
+    ver:document.querySelector('#vbar a.on')?.getAttribute('href'),
+    open:[...document.querySelectorAll('details[open]')].map(keyOf),y:scrollY};
+  try{localStorage.setItem(KEY,JSON.stringify(s))}catch(_){}
+}
+try{
+  if(st.ver&&!location.search){const a=document.querySelector(`#vbar a[href="${st.ver}"]`);a&&a.click()}
+  if(st.tab)activateTab(st.tab);
+  if(st.mode&&st.mode!==mode)document.querySelector(`.mode button[data-m="${st.mode}"]`)?.click();
+  if(st.mode==='ex'&&st.ex)document.querySelector(`#skillGrid .cell[data-id="${st.ex}"]`)?.click();
+  if(st.open){const want=new Set(st.open);document.querySelectorAll('details').forEach(d=>{d.open=want.has(keyOf(d))})}
+}catch(_){}
+requestAnimationFrame(()=>{if(st.y)scrollTo(0,st.y);restoring=false;});
+document.addEventListener('toggle',save,true);
+document.addEventListener('click',()=>setTimeout(save,0));
+let t;addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(save,200)},{passive:true});
+})();
+</script>
 </body>
 </html>
