@@ -175,6 +175,15 @@ details summary:hover{background:var(--panel)}
 .sub{padding:2px 18px 16px;border-top:1px solid rgba(30,58,85,.5)}
 .sub .rolestep{margin-top:14px}
 
+/* experience cards — one colour per employer */
+#exp .edu.co{border:1px solid var(--line);border-left:4px solid var(--co);background:linear-gradient(90deg,color-mix(in srgb,var(--co) 9%,var(--ink2)),var(--ink2) 55%);padding:22px 24px 20px;margin-bottom:22px}
+#exp .edu.co::before{display:none}
+#exp .edu.co>.yrs,#exp .edu.co .rolestep .yrs{color:var(--co)!important}
+#exp .edu.co .badge.c{border-color:var(--co);color:var(--co)}
+#exp .edu.co .rolestep::before{background:var(--co)}
+#exp .edu.co .rolestep.past::before{background:var(--ink);border:1px solid var(--co)}
+#exp .edu.co .thesis b{color:var(--co)}
+.co-elo{--co:#22d3ee}.co-aalto{--co:#facc15}.co-alex{--co:#34d399}.co-train{--co:#fb923c}
 /* ============ TIMELINE ============ */
 .tl{border-left:1px solid var(--line);margin-left:6px;padding-left:0}
 .tl-item{position:relative;padding:0 0 26px 30px}
@@ -339,7 +348,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
 <section id="exp" class="active">
   <h2>Experience — 10+ years in marine structures</h2>
 
-  <div class="edu">
+  <div class="edu co co-elo">
     <div class="yrs">MAY 2022 — PRESENT · 4+ YRS · ELOMATIC CONSULTING &amp; ENGINEERING · HELSINKI / ESPOO, FINLAND</div>
     <h3>Elomatic — consulting engineer, three-step progression</h3>
     <div class="badges">
@@ -379,7 +388,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
     </div>
   </div>
 
-  <div class="edu">
+  <div class="edu co co-aalto">
     <div class="yrs">JAN 2021 — MAY 2022 · 1 YR 5 MOS · AALTO UNIVERSITY, MARINE &amp; ARCTIC TECHNOLOGY · ESPOO / HELSINKI</div>
     <h3>Aalto University — Research &amp; Teaching Assistant</h3>
     <div class="rolestep">
@@ -394,7 +403,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
     </div>
   </div>
 
-  <div class="edu">
+  <div class="edu co co-alex">
     <div class="yrs">FEB 2018 — DEC 2020 · MAIN ROLE · ALEXANDRIA UNIVERSITY, FACULTY OF ENGINEERING · EGYPT</div>
     <h3>Teaching &amp; Research Assistant — Naval Architecture &amp; Marine Engineering</h3>
     <div class="thesis"><b>SCOPE</b>Master's-degree research on fatigue assessment of aged marine structures (the work behind the three publications), lab sessions and course design for the Naval Architecture and Offshore &amp; Ocean Engineering programmes.</div>
@@ -434,7 +443,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
     </details>
   </div>
 
-  <div class="edu">
+  <div class="edu co co-train">
     <div class="yrs">2013 — 2015 · SHIPYARD &amp; MARITIME INTERNSHIPS · ALEXANDRIA, EGYPT</div>
     <h3>Summer training register</h3>
     <details open>
