@@ -307,6 +307,7 @@ details:not(.trow):not(.acad):not(.pubd)>summary:hover::after{background-color:r
 #printcv{display:none}
 @media print{
   @page{size:A4;margin:13mm 14mm 15mm 14mm}
+  html,body{zoom:1!important;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:#fff!important;color:#16212b}
   body::before{display:none}
   header,nav,main,footer,.lightbox,#recPreview{display:none!important}
@@ -393,7 +394,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-f
     <div class="ctas">
       <a class="btn solid" href="mailto:Ahmed.Yosri.u3@gmail.com">Email me</a>
       <a class="btn" href="https://www.linkedin.com/in/ahmed-yosri-hassan/" target="_blank">LinkedIn</a>
-      <button class="btn" onclick="window.print()">Print / PDF</button>
+      <a class="btn" id="pdfbtn" href="pdf/Ahmed-Yosri-CV-General.pdf" target="_blank" rel="noopener">Download PDF</a>
     </div>
   </div>
 </header>
@@ -1083,9 +1084,9 @@ set(PER.length-1);
    FULL shows every picture. LITE shows only the pictures listed in `lite`
    (names are the data-pic attributes in this file; '*-x' keeps every name ending in -x). */
 const VERSIONS=[
- {id:'general',label:'General',lite:['headshot','cert-deans','cert-aalto-transcript','paper-ocean-eng','paper-aej',
+ {id:'general',label:'General',pdf:'pdf/Ahmed-Yosri-CV-General.pdf',url:'https://ahmedyosriu3-dev.github.io/CV_ST/',lite:['headshot','cert-deans','cert-aalto-transcript','paper-ocean-eng','paper-aej',
   '*-thumb','*-logo']},
- {id:'flc',label:'FLC · Immersion Engineer',lite:['headshot','cert-deans','cert-aalto-transcript','paper-ocean-eng','paper-aej',
+ {id:'flc',label:'FLC · Immersion Engineer',pdf:'pdf/Ahmed-Yosri-CV-FLC.pdf',url:'https://ahmedyosriu3-dev.github.io/CV_ST/FLC/',lite:['headshot','cert-deans','cert-aalto-transcript','paper-ocean-eng','paper-aej',
   '*-thumb','*-logo'],
   role:'NAVAL ARCHITECT · STABILITY &amp; MARINE OPERATIONS · HELSINKI, FI',
   blurb:'Naval architect and marine structural engineer with ten years in stability, hydrodynamics, structural analysis and marine operations. I work through ballast and loading scenarios step by step for heavy-lifting projects, calculate hull girder section forces and floating stability, map mooring and towing loads onto the structure, and have planned the launching and pulling-up of barges and floating hotels up to 110 m.',
@@ -1137,6 +1138,8 @@ const CAT0=CATS.map(c=>c.id);let lastV=null;
 function tailor(){
   const pf=document.getElementById('pcfit');if(!pf)return; /* print layout is parsed after this script */
   if(lastV===cur.id)return;lastV=cur.id;
+  document.getElementById('pdfbtn').href=cur.pdf;
+  document.querySelectorAll('#printcv a.pc-url').forEach(a=>{a.href=cur.url;a.textContent=cur.url});
   T.forEach(o=>{o.el=o.el||document.querySelector(o.q);if(o.def==null)o.def=o.el.innerHTML;o.el.innerHTML=cur[o.k]||o.def});
   const fit=document.getElementById('fit');
   fit.hidden=pf.hidden=!cur.fit;
@@ -1174,7 +1177,7 @@ new MutationObserver(apply).observe(document.querySelector('main'),{childList:tr
       Ahmed.Yosri.u3@gmail.com<br>+358 468010379
       <div class="sp">linkedin.com/in/ahmed-yosri-hassan</div>
       <div class="sp">English · Arabic · Finnish (learning)</div>
-      <div class="sp pc-link"><b>View the online interactive version of this CV:</b><br><a href="https://ahmedyosriu3-dev.github.io/CV_ST/">https://ahmedyosriu3-dev.github.io/CV_ST/</a></div>
+      <div class="sp pc-link"><b>View the online interactive version of this CV:</b><br><a class="pc-url" href="https://ahmedyosriu3-dev.github.io/CV_ST/">https://ahmedyosriu3-dev.github.io/CV_ST/</a></div>
     </td>
   </tr></table>
 
@@ -1279,7 +1282,7 @@ new MutationObserver(apply).observe(document.querySelector('main'),{childList:tr
   <h2>Beyond the drawing office</h2>
   <p>I am a deeply practical person and I love DIY. I perform all the regular maintenance on my car. The same passion extends to cycling: I custom-built a carbon-fibre gravel bike from the frame to the gears, sourcing and assembling every component myself. Whether on a multi-day bikepacking trip or in my daily fitness routine, I am driven by the same curiosity and attention to detail that I bring to the marine field — these hobbies are an extension of my engineering mindset, not just leisure.</p>
 
-  <div class="pc-foot">INTERACTIVE CV — WITH THE EXPERTISE EXPLORER, PROJECT MEDIA AND CERTIFICATES — AVAILABLE ONLINE · <a href="https://ahmedyosriu3-dev.github.io/CV_ST/">https://ahmedyosriu3-dev.github.io/CV_ST/</a></div>
+  <div class="pc-foot">INTERACTIVE CV — WITH THE EXPERTISE EXPLORER, PROJECT MEDIA AND CERTIFICATES — AVAILABLE ONLINE · <a class="pc-url" href="https://ahmedyosriu3-dev.github.io/CV_ST/">https://ahmedyosriu3-dev.github.io/CV_ST/</a></div>
 </div>
 
 <script>
